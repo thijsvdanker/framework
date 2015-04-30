@@ -2,6 +2,7 @@
     "name": "hyn-me/framework",
     "description": "Framework package for HynMe packages",
     "keywords": ["laravel", "hyn-me"],
+    "license": "CC-BY-4.0",
     "authors": [
         {
             "name": "Daniël `Luceos` Klabbers",
