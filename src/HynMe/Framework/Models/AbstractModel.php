@@ -6,6 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 class AbstractModel extends Model
 {
     /**
+     * @return string
+     */
+    public function getConnectionName()
+    {
+        // overrules connection name in case of using multi tenancy
+        if(env('HYN_MULTI_TENANCY_HOSTNAME') && is_null($this->connection))
+            return 'tenant';
+        // fallback to parent method
+        return parent::getConnectionName();
+    }
+
+    /**
      * Loads class name reflection information
      * @return array
      */
