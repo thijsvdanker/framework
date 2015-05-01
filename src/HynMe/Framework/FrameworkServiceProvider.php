@@ -11,6 +11,12 @@ class FrameworkServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
+    public function boot()
+    {
+        // prevents mutation in read only mode
+        Models\AbstractModel::observe(new Observers\AbstractModelObserver);
+    }
+
 	/**
 	 * Register the service provider.
 	 *
