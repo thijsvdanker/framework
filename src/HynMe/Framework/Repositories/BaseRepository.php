@@ -16,4 +16,13 @@ abstract class BaseRepository
             }
         }
     }
+
+    /**
+     * @param string $type
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function newInstance($type)
+    {
+        return $this->{$type}->newInstance();
+    }
 }
