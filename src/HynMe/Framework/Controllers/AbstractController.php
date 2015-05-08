@@ -25,12 +25,10 @@ abstract class AbstractController extends Controller
      * @param AbstractValidator $validation
      * @return $this|bool|AbstractModel|null
      */
-    protected function catchFormRequest(Request $request, AbstractModel $model, AbstractValidator $validation)
+    protected function catchFormRequest($closure, Request $request, AbstractModel $model, AbstractValidator $validation)
     {
-        if($request->method() == 'GET')
-            return null;
         // use abstract validator
-        if($validation instanceof AbstractValidator)
+        if($request->method() != 'GET' && $validation instanceof AbstractValidator)
         {
             $model = $model->exists ? $validation->updating($model, $request) : $validation->create($model, $request);
             if($model instanceof Validator)
@@ -40,5 +38,7 @@ abstract class AbstractController extends Controller
 
             return $model;
         }
+
+        return $closure();
     }
 }

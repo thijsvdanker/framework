@@ -19,12 +19,14 @@ abstract class AbstractValidator
         if($model->exists)
             $model = $model->replicate(['id']);
 
-        $validator = $this->make($request->all(), $this->rules);
+        $values = $this->parseRequestValues($request);
+
+        $validator = $this->make($values, $this->rules);
 
         if($validator->fails())
             return $validator;
 
-        $model->fill($request->all());
+        $model->fill($values);
 
         return $model;
     }
@@ -50,12 +52,14 @@ abstract class AbstractValidator
         if(empty($rules))
             return false;
 
-        $validator = $this->make($request->all(), $rules);
+        $values = $this->parseRequestValues($request);
+
+        $validator = $this->make($values, $rules);
 
         if($validator->fails())
             return $validator;
 
-        $model->fill($request->all());
+        $model->fill($values);
 
         return $model;
     }
@@ -69,5 +73,10 @@ abstract class AbstractValidator
     protected function make($values, $rules)
     {
         return Validator::make($values, $rules);
+    }
+
+    protected function parseRequestValues(Request $request)
+    {
+        return array_except($request->all(), ['_token']);
     }
 }

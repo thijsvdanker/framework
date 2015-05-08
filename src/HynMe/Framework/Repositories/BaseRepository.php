@@ -25,4 +25,14 @@ abstract class BaseRepository
     {
         return $this->{$type}->newInstance();
     }
+
+    /**
+     * Starts a querybuilder
+     * @param $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function queryBuilder($type)
+    {
+        return $this->{$type}->query();
+    }
 }
