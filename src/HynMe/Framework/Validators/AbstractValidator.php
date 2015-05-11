@@ -19,7 +19,7 @@ abstract class AbstractValidator
         if($model->exists)
             $model = $model->replicate(['id']);
 
-        $values = $this->parseRequestValues($request);
+        $values = $this->parseRequestValues($request, $model);
 
         $validator = $this->make($values, $this->rules);
 
@@ -52,7 +52,7 @@ abstract class AbstractValidator
         if(empty($rules))
             return false;
 
-        $values = $this->parseRequestValues($request);
+        $values = $this->parseRequestValues($request, $model);
 
         $validator = $this->make($values, $rules);
 
@@ -60,6 +60,30 @@ abstract class AbstractValidator
             return $validator;
 
         $model->fill($values);
+
+        return $model;
+    }
+
+    /**
+     * @param AbstractModel $model
+     * @param Request       $request
+     * @return AbstractModel|\Illuminate\Validation\Validator
+     */
+    public function deleting(AbstractModel $model, Request $request)
+    {
+        $values = $this->parseRequestValues($request, $model);
+
+        $values = array_merge($values, ['id' => $model->id]);
+
+        $validator = $this->make($values, [
+            'id' => ["exists:{$model->getTable()},id", "required", "numeric", "min:1"],
+            'confirm' => ['required', 'boolean', 'accepted']
+        ]);
+
+        if($validator->fails())
+            return $validator;
+
+        $model->delete();
 
         return $model;
     }
@@ -75,8 +99,16 @@ abstract class AbstractValidator
         return Validator::make($values, $rules);
     }
 
-    protected function parseRequestValues(Request $request)
+    /**
+     * Parses request values, without the token
+     * @param Request $request
+     * @return array
+     */
+    protected function parseRequestValues(Request $request, AbstractModel $model)
     {
-        return array_except($request->all(), ['_token']);
+
+        $values = array_merge($model->getAttributes(), $request->all());
+
+        return array_except($values, ['_token']);
     }
 }

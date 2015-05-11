@@ -1,5 +1,7 @@
 <?php namespace HynMe\Framework;
 
+use HynMe\Framework\Validation\ExtendedValidation;
+use Validator;
 use Illuminate\Support\ServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider {
@@ -13,8 +15,12 @@ class FrameworkServiceProvider extends ServiceProvider {
 
     public function boot()
     {
-        // prevents mutation in read only mode
-        Models\AbstractModel::observe(new Observers\AbstractModelObserver);
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'hyn-framework');
+
+        $this->app->validator->resolver(function($translator, $data, $rules, $messages)
+        {
+            return new ExtendedValidation($translator, $data, $rules, $messages);
+        });
     }
 
 	/**
