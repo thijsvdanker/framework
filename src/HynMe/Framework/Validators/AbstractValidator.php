@@ -40,6 +40,7 @@ abstract class AbstractValidator
      */
     public function updating(AbstractModel $model, Request $request)
     {
+
         if(is_null($this->rules))
             return false;
 

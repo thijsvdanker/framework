@@ -14,12 +14,21 @@ interface BaseRepositoryContract
      * @param string $type
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function newInstance($type);
+    public function newInstance($type = null);
 
     /**
      * Starts a querybuilder
      * @param $type
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function queryBuilder($type);
+    public function queryBuilder($type = null);
+
+    /**
+     * Query results for ajax
+     * @param      $name
+     * @param null $type
+     * @param Closure|null $additionalWhere
+     * @return mixed
+     */
+    public function ajaxQuery($name, $type = null, $additionalWhere = null);
 }
