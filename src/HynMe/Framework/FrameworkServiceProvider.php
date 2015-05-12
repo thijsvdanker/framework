@@ -2,6 +2,7 @@
 
 use HynMe\Framework\Validation\ExtendedValidation;
 use Validator;
+use DB;
 use Illuminate\Support\ServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider {

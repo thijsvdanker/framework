@@ -2,6 +2,7 @@
 
 use ReflectionClass;
 use Illuminate\Database\Eloquent\Model;
+use Request;
 
 class AbstractModel extends Model
 {
@@ -55,4 +56,35 @@ class AbstractModel extends Model
     {
         return snake_case($this->classNameReflections['short_name']);
     }
+
+    /**
+     * Whether environment is in read only mode
+     * @return bool
+     */
+    protected function readOnly()
+    {
+        return env('HYN_READ_ONLY') && !in_array(Request::ip(), explode(',', env('HYN_READ_ONLY_WHITELIST')));
+    }
+
+    /**
+     * Check for read only mode before running native save
+     * @param array $options
+     * @return bool
+     */
+    public function save(array $options = array())
+    {
+        return $this->readOnly() ? false : parent::save($options);
+    }
+
+    /**
+     * Check for read only mode before running native delete
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        return $this->readOnly() ? false : parent::delete();
+    }
+
+
 }

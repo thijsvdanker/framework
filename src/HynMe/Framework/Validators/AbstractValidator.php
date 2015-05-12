@@ -1,5 +1,7 @@
 <?php namespace HynMe\Framework\Validators;
 
+use App;
+use HynMe\Framework\Helpers\StringHelper;
 use Validator;
 use HynMe\Framework\Models\AbstractModel;
 use Illuminate\Http\Request;
@@ -21,7 +23,7 @@ abstract class AbstractValidator
 
         $values = $this->parseRequestValues($request, $model);
 
-        $validator = $this->make($values, $this->rules);
+        $validator = $this->make($values, $this->rules, $model);
 
         if($validator->fails())
             return $validator;
@@ -54,7 +56,7 @@ abstract class AbstractValidator
 
         $values = $this->parseRequestValues($request, $model);
 
-        $validator = $this->make($values, $rules);
+        $validator = $this->make($values, $rules, $model);
 
         if($validator->fails())
             return $validator;
@@ -78,7 +80,7 @@ abstract class AbstractValidator
         $validator = $this->make($values, [
             'id' => ["exists:{$model->getTable()},id", "required", "numeric", "min:1"],
             'confirm' => ['required', 'boolean', 'accepted']
-        ]);
+        ], $model);
 
         if($validator->fails())
             return $validator;
@@ -94,9 +96,28 @@ abstract class AbstractValidator
      * @param $rules
      * @return \Illuminate\Validation\Validator
      */
-    protected function make($values, $rules)
+    protected function make($values, $rules, $model)
     {
-        return Validator::make($values, $rules);
+        foreach($rules as $attribute => &$ruleset)
+        {
+            foreach($ruleset as &$rule)
+            {
+                // replace :variable in any validation rule
+//                $rule = StringHelper::replaceSemiColon($rule, $model);
+                // if unique rule and
+                if($model->exists && preg_match('/^unique:([^,]+),([^,]+)$/', $rule))
+                    $rule = "{$rule},{$model->id}";
+            }
+        }
+
+        // multi connection verifier
+        $verifier = App::make('validation.presence');
+        $verifier->setConnection($model->getConnectionName());
+
+        $validator = Validator::make($values, $rules);
+        $validator->setPresenceVerifier($verifier);
+
+        return $validator;
     }
 
     /**
