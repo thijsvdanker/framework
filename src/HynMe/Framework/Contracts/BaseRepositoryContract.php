@@ -31,4 +31,12 @@ interface BaseRepositoryContract
      * @return mixed
      */
     public function ajaxQuery($name, $type = null, $additionalWhere = null);
+
+    /**
+     * Finds an object by Id
+     * @param int $id
+     * @param bool $softDeleted
+     * @return \Illuminate\Support\Collection|null|void|static
+     */
+    public function findById($id, $softDeleted = true);
 }

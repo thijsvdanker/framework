@@ -5,6 +5,12 @@ use Input;
 
 abstract class BaseRepository
 {
+
+    /**
+     * @var AbstractModel
+     */
+    protected $model;
+
     public function __construct()
     {
         $args = func_get_args();
@@ -78,5 +84,18 @@ abstract class BaseRepository
             ];
         });
         return $items;
+    }
+
+    /**
+     * Finds an object by Id
+     * @param int $id
+     * @param bool $softDeleted
+     * @return \Illuminate\Support\Collection|null|void|static
+     */
+    public function findById($id, $softDeleted = true)
+    {
+        if($softDeleted && method_exists($this->model, 'withTrashed'))
+            return $this->model->withTrashed()->find($id);
+        return $this->model->find($id);
     }
 }
