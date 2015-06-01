@@ -98,4 +98,13 @@ abstract class BaseRepository
             return $this->model->withTrashed()->find($id);
         return $this->model->find($id);
     }
+    /**
+     * Create a pagination object
+     * @param int $per_page
+     * @return mixed
+     */
+    public function paginated($per_page = 20)
+    {
+        return $this->model->paginate($per_page);
+    }
 }
