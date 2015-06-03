@@ -7,6 +7,12 @@ use Illuminate\Support\ServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider {
 
+    protected $service_providers = [
+        'HynMe\MultiTenant\MultiTenantServiceProvider',
+        'HynMe\ManagementInterface\ManagementInterfaceServiceProvider',
+        'HynMe\Webserver\WebserverServiceProvider',
+    ];
+
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
@@ -31,7 +37,11 @@ class FrameworkServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		foreach($this->service_providers as $service_provider)
+        {
+            if(class_exists($service_provider))
+                $this->app->register($service_provider);
+        }
 	}
 
 	/**
