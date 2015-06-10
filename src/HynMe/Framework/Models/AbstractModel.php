@@ -63,7 +63,9 @@ class AbstractModel extends Model
      */
     protected function readOnly()
     {
-        return env('HYN_READ_ONLY') && !in_array(Request::ip(), explode(',', env('HYN_READ_ONLY_WHITELIST')));
+        return
+            !\App::runningInConsole() &&
+            (env('HYN_READ_ONLY') && !in_array(Request::ip(), explode(',', env('HYN_READ_ONLY_WHITELIST'))));
     }
 
     /**

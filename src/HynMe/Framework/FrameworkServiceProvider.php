@@ -9,8 +9,10 @@ class FrameworkServiceProvider extends ServiceProvider {
 
     protected $service_providers = [
         'HynMe\MultiTenant\MultiTenantServiceProvider',
-        'HynMe\ManagementInterface\ManagementInterfaceServiceProvider',
+
         'HynMe\Webserver\WebserverServiceProvider',
+        'HynMe\ManagementInterface\ManagementInterfaceServiceProvider',
+        'HynMe\Distribution\DistributionServiceProvider',
     ];
 
 	/**
@@ -37,6 +39,9 @@ class FrameworkServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+        /*
+         * register additional service providers if they exist
+         */
 		foreach($this->service_providers as $service_provider)
         {
             if(class_exists($service_provider))
