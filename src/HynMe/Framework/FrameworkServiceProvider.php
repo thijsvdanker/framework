@@ -1,19 +1,11 @@
 <?php namespace HynMe\Framework;
 
 use HynMe\Framework\Validation\ExtendedValidation;
-use Validator;
-use DB;
 use Illuminate\Support\ServiceProvider;
+use Config;
 
 class FrameworkServiceProvider extends ServiceProvider {
 
-    protected $service_providers = [
-        'HynMe\MultiTenant\MultiTenantServiceProvider',
-
-        'HynMe\Webserver\WebserverServiceProvider',
-        'HynMe\ManagementInterface\ManagementInterfaceServiceProvider',
-        'HynMe\Distribution\DistributionServiceProvider',
-    ];
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -24,6 +16,11 @@ class FrameworkServiceProvider extends ServiceProvider {
 
     public function boot()
     {
+        /*
+         * Set configuration variables
+         */
+        $this->mergeConfigFrom(__DIR__.'/../../config/hyn.php', 'hyn');
+
         $this->loadTranslationsFrom(__DIR__.'/../../lang', 'hyn-framework');
 
         $this->app->validator->resolver(function($translator, $data, $rules, $messages)
@@ -42,10 +39,15 @@ class FrameworkServiceProvider extends ServiceProvider {
         /*
          * register additional service providers if they exist
          */
-		foreach($this->service_providers as $service_provider)
+		foreach(Config::get('hyn.packages') as $name => $package)
         {
-            if(class_exists($service_provider))
-                $this->app->register($service_provider);
+            // register service provider for package
+            if(class_exists(array_get($package, 'service-provider')))
+                $this->app->register(array_get($package, 'service-provider'));
+            // set global state
+            $this->app->bind("hyn.package.{$name}", function() use ($package) {
+                return class_exists(array_get($package, 'service-provider')) ? $package : false;
+            });
         }
 	}
 
