@@ -23,6 +23,20 @@ class FrameworkServiceProvider extends ServiceProvider {
 
         $this->loadTranslationsFrom(__DIR__.'/../../lang', 'hyn-framework');
 
+        /*
+         * register additional service providers if they exist
+         */
+        foreach(Config::get('hyn.packages', []) as $name => $package)
+        {
+            // register service provider for package
+            if(class_exists(array_get($package, 'service-provider')))
+                $this->app->register(array_get($package, 'service-provider'));
+            // set global state
+            $this->app->bind("hyn.package.{$name}", function() use ($package) {
+                return class_exists(array_get($package, 'service-provider')) ? $package : false;
+            });
+        }
+
         $this->app->validator->resolver(function($translator, $data, $rules, $messages)
         {
             return new ExtendedValidation($translator, $data, $rules, $messages);
@@ -36,19 +50,7 @@ class FrameworkServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-        /*
-         * register additional service providers if they exist
-         */
-		foreach(Config::get('hyn.packages') as $name => $package)
-        {
-            // register service provider for package
-            if(class_exists(array_get($package, 'service-provider')))
-                $this->app->register(array_get($package, 'service-provider'));
-            // set global state
-            $this->app->bind("hyn.package.{$name}", function() use ($package) {
-                return class_exists(array_get($package, 'service-provider')) ? $package : false;
-            });
-        }
+
 	}
 
 	/**
