@@ -3,6 +3,14 @@
 interface BaseRepositoryContract
 {
     /**
+     * Creates and optionally saves an object
+     * @param array $attributes
+     * @param bool  $save
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create(array $attributes, $save = true);
+
+    /**
      * Create a pagination object
      * @param int $per_page
      * @return mixed

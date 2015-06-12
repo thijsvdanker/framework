@@ -27,6 +27,26 @@ abstract class BaseRepository
     }
 
     /**
+     * Creates and optionally saves an object
+     * @param array $attributes
+     * @param bool  $save
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create(array $attributes, $save = true)
+    {
+        $instance = $this->newInstance();
+
+        $instance->unguard();
+        $instance->fill($attribute);
+        $instance->reguard();
+
+        if($save)
+            $instance->save();
+
+        return $instance;
+    }
+
+    /**
      * @param string $type
      * @return \Illuminate\Database\Eloquent\Model
      */
