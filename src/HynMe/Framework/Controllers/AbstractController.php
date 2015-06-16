@@ -68,7 +68,7 @@ abstract class AbstractController extends Controller
     {
         return $this->catchFormRequest(function() use ($view, $model)
         {
-            return view($view ?: Config::get('management-interface.views-namespace') . "::template.forms.confirm-delete", [
+            return view($view ?: "management-interface::template.forms.confirm-delete", [
                 'model' => $model
             ]);
         }, $request, $model, new WebsiteValidator, $redirect);

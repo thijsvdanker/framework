@@ -1,5 +1,7 @@
 <?php namespace HynMe\Framework\Contracts;
 
+use Closure;
+
 interface BaseRepositoryContract
 {
     /**
@@ -38,7 +40,7 @@ interface BaseRepositoryContract
      * @param Closure|null $additionalWhere
      * @return mixed
      */
-    public function ajaxQuery($name, $type = null, $additionalWhere = null);
+    public function ajaxQuery($name, $type = null, Closure $additionalWhere = null);
 
     /**
      * Finds an object by Id

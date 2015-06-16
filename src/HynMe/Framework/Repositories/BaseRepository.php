@@ -2,6 +2,7 @@
 
 use HynMe\Framework\Models\AbstractModel;
 use Input;
+use Closure;
 
 abstract class BaseRepository
 {
@@ -37,7 +38,7 @@ abstract class BaseRepository
         $instance = $this->newInstance();
 
         $instance->unguard();
-        $instance->fill($attribute);
+        $instance->fill($attributes);
         $instance->reguard();
 
         if($save)
@@ -78,7 +79,7 @@ abstract class BaseRepository
      * @param Closure|null $additionalWhere
      * @return mixed
      */
-    public function ajaxQuery($name, $type = null, $additionalWhere = null)
+    public function ajaxQuery($name, $type = null, Closure $additionalWhere = null)
     {
         $query = $this->queryBuilder($type);
 
