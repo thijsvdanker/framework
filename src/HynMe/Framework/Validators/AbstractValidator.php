@@ -1,19 +1,16 @@
 <?php namespace HynMe\Framework\Validators;
 
-use App;
-use HynMe\Framework\Helpers\StringHelper;
-use Validator;
+use App, Input, Validator;
 use HynMe\Framework\Models\AbstractModel;
-use Illuminate\Http\Request;
+use Request;
 
 abstract class AbstractValidator
 {
     /**
      * @param AbstractModel $model
-     * @param Request       $request
      * @return bool
      */
-    public function create(AbstractModel $model, Request $request)
+    public function create(AbstractModel $model)
     {
         if(is_null($this->rules))
             return false;
@@ -21,7 +18,7 @@ abstract class AbstractValidator
         if($model->exists)
             $model = $model->replicate(['id']);
 
-        $values = $this->parseRequestValues($request, $model);
+        $values = $this->parseRequestValues($model);
 
         $validator = $this->make($values, $this->rules, $model);
 
@@ -35,10 +32,9 @@ abstract class AbstractValidator
 
     /**
      * @param AbstractModel $model
-     * @param Request       $request
      * @return bool
      */
-    public function updating(AbstractModel $model, Request $request)
+    public function updating(AbstractModel $model)
     {
 
         if(is_null($this->rules))
@@ -46,10 +42,10 @@ abstract class AbstractValidator
 
         // if not yet existing, forward to create method
         if(!$model->exists)
-            return $this->create($model, $request);
+            return $this->create($model);
 
         // get the rules for only those attributes that have been changed
-        $rules = array_only($this->rules, array_keys($request->all()));
+        $rules = array_only($this->rules, array_keys(Input::all()));
 
         // no rules available
         if(empty($rules))
@@ -69,12 +65,11 @@ abstract class AbstractValidator
 
     /**
      * @param AbstractModel $model
-     * @param Request       $request
      * @return AbstractModel|\Illuminate\Validation\Validator
      */
-    public function deleting(AbstractModel $model, Request $request)
+    public function deleting(AbstractModel $model)
     {
-        $values = $this->parseRequestValues($request, $model);
+        $values = $this->parseRequestValues($model);
 
         $values = array_merge($values, ['id' => $model->id]);
 
@@ -123,14 +118,53 @@ abstract class AbstractValidator
 
     /**
      * Parses request values, without the token
-     * @param Request $request
      * @return array
      */
-    protected function parseRequestValues(Request $request, AbstractModel $model)
+    protected function parseRequestValues(AbstractModel $model)
     {
 
-        $values = array_merge($model->getAttributes(), $request->all());
+        $values = array_merge($model->getAttributes(), Input::all());
 
         return array_except($values, ['_token']);
+    }
+
+    /**
+     * Parses requests to the controller for interactions with models
+     *
+     * @param AbstractModel     $model
+     * @return $this|bool|AbstractModel|null
+     */
+    public function catchFormRequest(AbstractModel $model, $redirect = null)
+    {
+        // use abstract validator
+        if(Request::method() != 'GET') {
+            switch(Request::method())
+            {
+
+                case 'POST':
+                case 'UPDATE':
+                    $model = $model->exists ? $this->updating($model) : $this->create($model);
+                    $action = 'save';
+                    break;
+                case 'DELETE':
+                    $model = $this->deleting($model);
+                    $action = 'delete';
+                    break;
+                case 'HEAD':
+                    $action = 'touch';
+                    break;
+                default:
+                    return false;
+            }
+
+            if ($model instanceof \Illuminate\Validation\Validator) {
+                return redirect()->back()->withErrors($model->errors())->withInput();
+            }
+
+            $model->{$action}();
+            return $redirect ? $redirect : true;
+        }
+        else
+            return false;
     }
 }
