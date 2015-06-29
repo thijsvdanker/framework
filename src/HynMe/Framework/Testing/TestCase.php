@@ -1,5 +1,6 @@
 <?php namespace HynMe\Framework\Testing;
 
+use Config;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
 class TestCase extends IlluminateTestCase
@@ -10,6 +11,7 @@ class TestCase extends IlluminateTestCase
         parent::setUp();
         // register framework service provider and all dependancies
         $this->app->register('HynMe\Framework\FrameworkServiceProvider');
+        Config::set('database.connections.hyn', Config::get('database.connections.sqlite'));
     }
 
 
