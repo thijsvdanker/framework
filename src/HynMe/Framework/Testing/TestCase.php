@@ -11,7 +11,7 @@ class TestCase extends IlluminateTestCase
         parent::setUp();
         // register framework service provider and all dependancies
         $this->app->register('HynMe\Framework\FrameworkServiceProvider');
-        Config::set('database.connections.hyn', Config::get('database.connections.sqlite'));
+        Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
     }
 
 
