@@ -5,16 +5,6 @@ use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
 class TestCase extends IlluminateTestCase
 {
-    public function setUp()
-    {
-        // run illuminate testCase setup
-        parent::setUp();
-        // register framework service provider and all dependancies
-        $this->app->register('HynMe\Framework\FrameworkServiceProvider');
-        Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
-    }
-
-
     /**
      * Creates the application.
      *
@@ -25,6 +15,11 @@ class TestCase extends IlluminateTestCase
         $app = require __DIR__ . '/../../../../../../../bootstrap/app.php';
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        // register framework service provider and all dependancies
+        $app->register('HynMe\Framework\FrameworkServiceProvider');
+
+        Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
 
         return $app;
     }
