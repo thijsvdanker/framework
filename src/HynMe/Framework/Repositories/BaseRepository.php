@@ -128,4 +128,13 @@ abstract class BaseRepository
     {
         return $this->model->paginate($per_page);
     }
+
+    /**
+     * Get all results from database
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all()
+    {
+        return $this->model->all();
+    }
 }

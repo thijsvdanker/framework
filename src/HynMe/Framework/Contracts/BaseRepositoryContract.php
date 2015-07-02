@@ -49,4 +49,10 @@ interface BaseRepositoryContract
      * @return \Illuminate\Support\Collection|null|void|static
      */
     public function findById($id, $softDeleted = true);
+
+    /**
+     * Get all results from database
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all();
 }
