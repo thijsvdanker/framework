@@ -29,16 +29,12 @@ class TestCase extends IlluminateTestCase
     {
         $app = require __DIR__ . '/../../../../../../../bootstrap/app.php';
 
-        // register framework service provider and all dependancies
-        $provider = $app->register('HynMe\Framework\FrameworkServiceProvider');
-
-        $kernel = $app->make('Illuminate\Contracts\Console\Kernel');
-
-
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
 
-        $kernel->bootstrap();
+        // register framework service provider and all dependancies
+        $provider = $app->register('HynMe\Framework\FrameworkServiceProvider');
 
         if(!$provider)
             throw new \Exception('Required framework service provider not registered/booted for use during unit testing');
