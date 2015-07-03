@@ -36,13 +36,6 @@ class TestCase extends IlluminateTestCase
         // register framework service provider and all dependancies
         $app->register('HynMe\Framework\FrameworkServiceProvider');
 
-        /*
-         * generate these properties for user in test cases
-         */
-        $this->tenant = $app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
-        $this->hostname = $app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
-        $this->website = $app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
-
         return $app;
     }
 }
