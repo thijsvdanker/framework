@@ -29,12 +29,13 @@ class TestCase extends IlluminateTestCase
     {
         $app = require __DIR__ . '/../../../../../../../bootstrap/app.php';
 
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
 
         // register framework service provider and all dependancies
         $app->register('HynMe\Framework\FrameworkServiceProvider');
+
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         return $app;
     }
