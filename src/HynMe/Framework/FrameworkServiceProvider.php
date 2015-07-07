@@ -29,6 +29,7 @@ class FrameworkServiceProvider extends ServiceProvider {
         $packages = Config::get('hyn.packages', []);
         if(empty($packages))
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
+
         foreach($packages as $name => $package)
         {
             // register service provider for package
