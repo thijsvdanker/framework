@@ -3,7 +3,7 @@ return [
     'packages' => [
         'multi-tenant' => [
             'description' => 'Multi tenancy for Laravel 5.1+',
-            'service-provider' => 'HynMe\MultiTenant\MultiTenantServiceProvider'
+            'service-provider' => 'LaraLeague\MultiTenant\MultiTenantServiceProvider'
         ],
         'management-interface' => [
             'description' => 'Interface for managing webserver and multi tenancy',
