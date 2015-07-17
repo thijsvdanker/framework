@@ -6,20 +6,6 @@ use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
 class TestCase extends IlluminateTestCase
 {
-    /**
-     * @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract
-     */
-    protected $tenant;
-
-    /**
-     * @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract
-     */
-    protected $hostname;
-
-    /**
-     * @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract
-     */
-    protected $website;
 
     /**
      * Creates the application.
