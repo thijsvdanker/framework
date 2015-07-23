@@ -51,7 +51,7 @@ abstract class AbstractValidator
         if(empty($rules))
             return false;
 
-        $values = $this->parseRequestValues($request, $model);
+        $values = $this->parseRequestValues($model);
 
         $validator = $this->make($values, $rules, $model);
 
