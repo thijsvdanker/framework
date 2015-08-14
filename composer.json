@@ -13,7 +13,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/hyn-me/multi-tenant/issues",
+        "issues": "https://github.com/laraflock/multi-tenant/issues",
         "source": "https://github.com/hyn-me/framework",
         "docs": "http://hyn.me"
     },

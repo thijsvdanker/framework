@@ -98,9 +98,6 @@ abstract class AbstractValidator
         {
             foreach($ruleset as &$rule)
             {
-                // replace :variable in any validation rule
-//                $rule = StringHelper::replaceSemiColon($rule, $model);
-                // if unique rule and
                 if($model->exists && preg_match('/^unique:([^,]+),([^,]+)$/', $rule))
                     $rule = "{$rule},{$model->id}";
             }
