@@ -1,3 +1,7 @@
-<?php namespace HynMe\Framework\Exceptions;
+<?php
 
-class TenantDatabaseException extends \Exception {}
+namespace HynMe\Framework\Exceptions;
+
+class TenantDatabaseException extends \Exception
+{
+}

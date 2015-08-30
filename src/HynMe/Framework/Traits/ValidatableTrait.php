@@ -1,9 +1,12 @@
-<?php namespace HynMe\Framework\Traits;
+<?php
+
+namespace HynMe\Framework\Traits;
 
 trait ValidatableTrait
 {
     /**
-     * Complete class name for model validation class
+     * Complete class name for model validation class.
+     *
      * @var string
      */
     protected $validator;
@@ -15,7 +18,7 @@ trait ValidatableTrait
 
     public function validator()
     {
-/*        if ( ! $this->validator or ! class_exists($this->validator))
+        /*        if ( ! $this->validator or ! class_exists($this->validator))
         {
             throw new \Exception('Please set the $validator property to your validator path.');
         }

@@ -1,4 +1,6 @@
-<?php namespace HynMe\Framework\Helpers;
+<?php
+
+namespace HynMe\Framework\Helpers;
 
 use Auth;
 
@@ -6,36 +8,36 @@ class StringHelper
 {
     /**
      * Replace a column definition string with the proper model data
-     * Can also handle relations (if defined properly)
+     * Can also handle relations (if defined properly).
      *
      * @param $string
-     * @param null $model
+     * @param null  $model
      * @param array $forced
+     *
      * @return mixed
      */
     public static function replaceSemiColon($string, $model = null, $forced = [])
     {
-
-        return preg_replace_callback('/:([a-zA-Z0-9._]+)/', function($matches) use ($model, $forced)
-        {
-            $found      = $matches[1];
+        return preg_replace_callback('/:([a-zA-Z0-9._]+)/', function ($matches) use ($model, $forced) {
+            $found = $matches[1];
 
             // if this concerns a visitor
-            if(Auth::check() && preg_match('/^visitor_/',$found)) {
-                $column			= str_replace('visitor_', null, $found);
-                return Auth::user() -> {$column};
+            if (Auth::check() && preg_match('/^visitor_/', $found)) {
+                $column = str_replace('visitor_', null, $found);
+
+                return Auth::user()->{$column};
             }
 
             // find in the overrule array
-            if(!is_null(array_get($forced, $found))) {
+            if (!is_null(array_get($forced, $found))) {
                 return array_get($forced, $found);
             }
 
             // Check if we need a property of a specific model
-            $property   = $matches[1];
-            $return     = $model;
+            $property = $matches[1];
+            $return = $model;
 
-            if (str_contains($matches[1], '.') && substr($matches[1], -1) != ".") {
+            if (str_contains($matches[1], '.') && substr($matches[1], -1) != '.') {
                 $property = explode('.', $matches[1]);
             }
 

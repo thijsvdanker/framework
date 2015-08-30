@@ -1,6 +1,7 @@
-<?php namespace HynMe\Framework\Database\Migrations;
+<?php
+
+namespace HynMe\Framework\Database\Migrations;
 
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
-    
 }

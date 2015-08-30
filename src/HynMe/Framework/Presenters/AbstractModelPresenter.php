@@ -1,17 +1,21 @@
-<?php namespace HynMe\Framework\Presenters;
+<?php
+
+namespace HynMe\Framework\Presenters;
 
 use Laracasts\Presenter\Presenter;
 
 abstract class AbstractModelPresenter extends Presenter
 {
     /**
-     * Required name
+     * Required name.
+     *
      * @return string
      */
     abstract public function name();
 
     /**
-     * Name for use in url's
+     * Name for use in url's.
+     *
      * @return string
      */
     public function urlName()
@@ -25,8 +29,8 @@ abstract class AbstractModelPresenter extends Presenter
     public function urlArguments()
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name()
+            'id'   => $this->id,
+            'name' => $this->name(),
         ];
     }
 }

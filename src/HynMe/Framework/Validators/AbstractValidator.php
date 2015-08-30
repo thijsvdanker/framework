@@ -1,29 +1,37 @@
-<?php namespace HynMe\Framework\Validators;
+<?php
 
-use App, Input, Validator;
+namespace HynMe\Framework\Validators;
+
+use App;
 use HynMe\Framework\Models\AbstractModel;
+use Input;
 use Request;
+use Validator;
 
 abstract class AbstractValidator
 {
     /**
      * @param AbstractModel $model
+     *
      * @return bool
      */
     public function create(AbstractModel $model)
     {
-        if(is_null($this->rules))
+        if (is_null($this->rules)) {
             return false;
+        }
         // replicate the model if it exists
-        if($model->exists)
+        if ($model->exists) {
             $model = $model->replicate(['id']);
+        }
 
         $values = $this->parseRequestValues($model);
 
         $validator = $this->make($values, $this->rules, $model);
 
-        if($validator->fails())
+        if ($validator->fails()) {
             return $validator;
+        }
 
         $model->fill($values);
 
@@ -32,31 +40,35 @@ abstract class AbstractValidator
 
     /**
      * @param AbstractModel $model
+     *
      * @return bool
      */
     public function updating(AbstractModel $model)
     {
-
-        if(is_null($this->rules))
+        if (is_null($this->rules)) {
             return false;
+        }
 
         // if not yet existing, forward to create method
-        if(!$model->exists)
+        if (!$model->exists) {
             return $this->create($model);
+        }
 
         // get the rules for only those attributes that have been changed
         $rules = array_only($this->rules, array_keys(Input::all()));
 
         // no rules available
-        if(empty($rules))
+        if (empty($rules)) {
             return false;
+        }
 
         $values = $this->parseRequestValues($model);
 
         $validator = $this->make($values, $rules, $model);
 
-        if($validator->fails())
+        if ($validator->fails()) {
             return $validator;
+        }
 
         $model->fill($values);
 
@@ -65,6 +77,7 @@ abstract class AbstractValidator
 
     /**
      * @param AbstractModel $model
+     *
      * @return AbstractModel|\Illuminate\Validation\Validator
      */
     public function deleting(AbstractModel $model)
@@ -74,12 +87,13 @@ abstract class AbstractValidator
         $values = array_merge($values, ['id' => $model->id]);
 
         $validator = $this->make($values, [
-            'id' => ["exists:{$model->getTable()},id", "required", "numeric", "min:1"],
-            'confirm' => ['required', 'boolean', 'accepted']
+            'id'      => ["exists:{$model->getTable()},id", 'required', 'numeric', 'min:1'],
+            'confirm' => ['required', 'boolean', 'accepted'],
         ], $model);
 
-        if($validator->fails())
+        if ($validator->fails()) {
             return $validator;
+        }
 
         $model->delete();
 
@@ -87,19 +101,20 @@ abstract class AbstractValidator
     }
 
     /**
-     * Loads a validator object
+     * Loads a validator object.
+     *
      * @param $values
      * @param $rules
+     *
      * @return \Illuminate\Validation\Validator
      */
     protected function make($values, $rules, $model)
     {
-        foreach($rules as $attribute => &$ruleset)
-        {
-            foreach($ruleset as &$rule)
-            {
-                if($model->exists && preg_match('/^unique:([^,]+),([^,]+)$/', $rule))
+        foreach ($rules as $attribute => &$ruleset) {
+            foreach ($ruleset as &$rule) {
+                if ($model->exists && preg_match('/^unique:([^,]+),([^,]+)$/', $rule)) {
                     $rule = "{$rule},{$model->id}";
+                }
             }
         }
 
@@ -114,29 +129,29 @@ abstract class AbstractValidator
     }
 
     /**
-     * Parses request values, without the token
+     * Parses request values, without the token.
+     *
      * @return array
      */
     protected function parseRequestValues(AbstractModel $model)
     {
-
         $values = array_merge($model->getAttributes(), Input::all());
 
         return array_except($values, ['_token']);
     }
 
     /**
-     * Parses requests to the controller for interactions with models
+     * Parses requests to the controller for interactions with models.
      *
-     * @param AbstractModel     $model
+     * @param AbstractModel $model
+     *
      * @return $this|bool|AbstractModel|null
      */
     public function catchFormRequest(AbstractModel $model, $redirect = null)
     {
         // use abstract validator
-        if(Request::method() != 'GET') {
-            switch(Request::method())
-            {
+        if (Request::method() != 'GET') {
+            switch (Request::method()) {
 
                 case 'POST':
                 case 'UPDATE':
@@ -159,9 +174,10 @@ abstract class AbstractValidator
             }
 
             $model->{$action}();
+
             return $redirect ? $redirect : true;
-        }
-        else
+        } else {
             return false;
+        }
     }
 }
