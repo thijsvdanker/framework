@@ -1,14 +1,18 @@
-<?php namespace HynMe\Framework\Validation;
+<?php
+
+namespace HynMe\Framework\Validation;
 
 use Illuminate\Validation\Validator;
 
 class ExtendedValidation extends Validator
 {
     /**
-     * Validates hostnames
+     * Validates hostnames.
+     *
      * @param $attribute
      * @param $value
      * @param $parameters
+     *
      * @return int
      */
     public function validateHostname($attribute, $value, $parameters)

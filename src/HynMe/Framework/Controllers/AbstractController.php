@@ -1,16 +1,17 @@
-<?php namespace HynMe\Framework\Controllers;
+<?php
+
+namespace HynMe\Framework\Controllers;
 
 use HynMe\Framework\Models\AbstractModel;
-use HynMe\Framework\Validators\AbstractValidator;
 use HynMe\ManagementInterface\Form\Generator;
-use HynMe\MultiTenant\Validators\WebsiteValidator;
-use View;
 use Illuminate\Routing\Controller;
+use View;
 
 abstract class AbstractController extends Controller
 {
     /**
-     * Sets a variable into the views
+     * Sets a variable into the views.
+     *
      * @param $key
      * @param $value
      */
@@ -20,10 +21,11 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * Parses requests to the controller for interactions with models
+     * Parses requests to the controller for interactions with models.
      *
-     * @param AbstractModel     $model
-     * @param Generator $form
+     * @param AbstractModel $model
+     * @param Generator     $form
+     *
      * @return $this|bool|AbstractModel|null
      */
     protected function catchFormRequest($closure, Generator $form)
@@ -36,20 +38,19 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * Shows a confirmation page
+     * Shows a confirmation page.
+     *
      * @param AbstractModel $model
      * @param null|string   $view
+     *
      * @return View
      */
     protected function showConfirmMessage(AbstractModel $model, Generator $form, $view = null)
     {
-        return $this->catchFormRequest(function() use ($view, $model)
-        {
-            return view($view ?: "management-interface::template.forms.confirm-delete", [
-                'model' => $model
+        return $this->catchFormRequest(function () use ($view, $model) {
+            return view($view ?: 'management-interface::template.forms.confirm-delete', [
+                'model' => $model,
             ]);
         }, $form);
-
-
     }
 }

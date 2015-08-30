@@ -1,18 +1,19 @@
-<?php namespace HynMe\Framework;
+<?php
 
+namespace HynMe\Framework;
+
+use Config;
 use HynMe\Framework\Validation\ExtendedValidation;
 use Illuminate\Support\ServiceProvider;
-use Config;
 
-class FrameworkServiceProvider extends ServiceProvider {
-
-
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+class FrameworkServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
     public function boot()
     {
@@ -27,44 +28,42 @@ class FrameworkServiceProvider extends ServiceProvider {
          * register additional service providers if they exist
          */
         $packages = Config::get('hyn.packages', []);
-        if(empty($packages))
+        if (empty($packages)) {
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
+        }
 
-        foreach($packages as $name => $package)
-        {
+        foreach ($packages as $name => $package) {
             // register service provider for package
-            if(class_exists(array_get($package, 'service-provider')))
+            if (class_exists(array_get($package, 'service-provider'))) {
                 $this->app->register(array_get($package, 'service-provider'));
+            }
             // set global state
-            $this->app->bind("hyn.package.{$name}", function() use ($package) {
+            $this->app->bind("hyn.package.{$name}", function () use ($package) {
                 return class_exists(array_get($package, 'service-provider')) ? $package : false;
             });
         }
 
-        $this->app->validator->resolver(function($translator, $data, $rules, $messages)
-        {
+        $this->app->validator->resolver(function ($translator, $data, $rules, $messages) {
             return new ExtendedValidation($translator, $data, $rules, $messages);
         });
     }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+    }
 
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return [];
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
 }

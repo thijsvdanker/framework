@@ -1,7 +1,9 @@
-<?php namespace HynMe\Framework\Models;
+<?php
 
-use ReflectionClass;
+namespace HynMe\Framework\Models;
+
 use Illuminate\Database\Eloquent\Model;
+use ReflectionClass;
 use Request;
 
 class AbstractModel extends Model
@@ -12,14 +14,16 @@ class AbstractModel extends Model
     public function getConnectionName()
     {
         // overrules connection name in case of using multi tenancy
-        if(env('HYN_MULTI_TENANCY_HOSTNAME') && is_null($this->connection))
+        if (env('HYN_MULTI_TENANCY_HOSTNAME') && is_null($this->connection)) {
             return 'tenant';
+        }
         // fallback to parent method
         return parent::getConnectionName();
     }
 
     /**
-     * Loads class name reflection information
+     * Loads class name reflection information.
+     *
      * @return array
      */
     public function getClassNameReflectionsAttribute()
@@ -28,20 +32,20 @@ class AbstractModel extends Model
 
         $ret = [];
 
-        foreach(['inNamespace', 'getName', 'getNamespaceName', 'getShortName'] as $method)
-        {
+        foreach (['inNamespace', 'getName', 'getNamespaceName', 'getShortName'] as $method) {
             $label = str_replace('get', null, $method);
             $label = snake_case($label);
             $ret[$label] = $reflect->{$method}();
         }
 
         $ret['vendor'] = head(explode('\\', $ret['namespace_name']));
-        $ret['package'] = array_get(explode('\\', $ret['namespace_name']),1);
+        $ret['package'] = array_get(explode('\\', $ret['namespace_name']), 1);
 
         return $ret;
     }
     /**
-     * Complete namespaced class name of called class
+     * Complete namespaced class name of called class.
+     *
      * @return string
      */
     public function getClassNameAttribute()
@@ -58,7 +62,8 @@ class AbstractModel extends Model
     }
 
     /**
-     * Whether environment is in read only mode
+     * Whether environment is in read only mode.
+     *
      * @return bool
      */
     protected function readOnly()
@@ -69,24 +74,26 @@ class AbstractModel extends Model
     }
 
     /**
-     * Check for read only mode before running native save
+     * Check for read only mode before running native save.
+     *
      * @param array $options
+     *
      * @return bool
      */
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         return $this->readOnly() ? false : parent::save($options);
     }
 
     /**
-     * Check for read only mode before running native delete
-     * @return bool|null
+     * Check for read only mode before running native delete.
+     *
      * @throws \Exception
+     *
+     * @return bool|null
      */
     public function delete()
     {
         return $this->readOnly() ? false : parent::delete();
     }
-
-
 }
