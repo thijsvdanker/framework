@@ -43,6 +43,7 @@ class AbstractModel extends Model
 
         return $ret;
     }
+
     /**
      * Complete namespaced class name of called class.
      *
@@ -69,8 +70,8 @@ class AbstractModel extends Model
     protected function readOnly()
     {
         return
-            !\App::runningInConsole() &&
-            (env('HYN_READ_ONLY') && !in_array(Request::ip(), explode(',', env('HYN_READ_ONLY_WHITELIST'))));
+            ! \App::runningInConsole() &&
+            (env('HYN_READ_ONLY') && ! in_array(Request::ip(), explode(',', env('HYN_READ_ONLY_WHITELIST'))));
     }
 
     /**
