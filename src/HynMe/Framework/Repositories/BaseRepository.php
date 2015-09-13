@@ -96,7 +96,7 @@ abstract class BaseRepository
         $search = (string) Input::get('query');
 
         // modifies query builder with additional where
-        if (!is_null($additionalWhere)) {
+        if (! is_null($additionalWhere)) {
             $query = $additionalWhere($query, $search);
         }
 
@@ -135,6 +135,7 @@ abstract class BaseRepository
 
         return $this->model->find($id);
     }
+
     /**
      * Create a pagination object.
      *

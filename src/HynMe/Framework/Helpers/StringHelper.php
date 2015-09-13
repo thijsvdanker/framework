@@ -29,7 +29,7 @@ class StringHelper
             }
 
             // find in the overrule array
-            if (!is_null(array_get($forced, $found))) {
+            if (! is_null(array_get($forced, $found))) {
                 return array_get($forced, $found);
             }
 
@@ -42,7 +42,7 @@ class StringHelper
             }
 
             // Assume it's a property of the current model
-            if (!is_array($property)) {
+            if (! is_array($property)) {
                 $return = $model->{$property};
             }
 

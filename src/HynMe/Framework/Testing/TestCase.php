@@ -29,7 +29,7 @@ class TestCase extends IlluminateTestCase
             return \Response::json($app->make('tenant.view'));
         });
 
-        if (!$provider) {
+        if (! $provider) {
             throw new \Exception('Required framework service provider not registered/booted for use during unit testing');
         }
 

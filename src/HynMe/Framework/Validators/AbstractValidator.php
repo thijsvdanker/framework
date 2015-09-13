@@ -50,7 +50,7 @@ abstract class AbstractValidator
         }
 
         // if not yet existing, forward to create method
-        if (!$model->exists) {
+        if (! $model->exists) {
             return $this->create($model);
         }
 
