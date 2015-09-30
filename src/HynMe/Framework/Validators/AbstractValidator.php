@@ -105,7 +105,7 @@ abstract class AbstractValidator
      *
      * @param $values
      * @param $rules
-     *
+     * @param $model
      * @return \Illuminate\Validation\Validator
      */
     protected function make($values, $rules, $model)
@@ -131,6 +131,7 @@ abstract class AbstractValidator
     /**
      * Parses request values, without the token.
      *
+     * @param AbstractModel $model
      * @return array
      */
     protected function parseRequestValues(AbstractModel $model)
@@ -145,6 +146,7 @@ abstract class AbstractValidator
      *
      * @param AbstractModel $model
      *
+     * @param null          $redirect
      * @return $this|bool|AbstractModel|null
      */
     public function catchFormRequest(AbstractModel $model, $redirect = null)
