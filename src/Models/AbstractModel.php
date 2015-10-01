@@ -9,15 +9,15 @@ use Request;
 class AbstractModel extends Model
 {
     protected $connection;
-    
+
     public function __construct(array $attributes = [])
     {
         // force connection based on connection name set by extended classes
         $this->connection = $this->getConnectionName();
-        
+
         parent::__construct($attributes);
     }
-    
+
     /**
      * @return string
      */
