@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Traits;
+namespace Hyn\Framework\Traits;
 
 trait ValidatableTrait
 {

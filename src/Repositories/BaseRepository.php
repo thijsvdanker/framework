@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework\Repositories;
+namespace Hyn\Framework\Repositories;
 
 use Closure;
-use HynMe\Framework\Models\AbstractModel;
+use Hyn\Framework\Models\AbstractModel;
 use Input;
 
 abstract class BaseRepository

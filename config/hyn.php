@@ -8,11 +8,11 @@ return [
         ],
         'management-interface' => [
             'description'      => 'Interface for managing webserver and multi tenancy',
-            'service-provider' => 'HynMe\ManagementInterface\ManagementInterfaceServiceProvider',
+            'service-provider' => 'Hyn\ManagementInterface\ManagementInterfaceServiceProvider',
         ],
         'webserver' => [
             'description'      => 'Integration into and generation of configs for webservices',
-            'service-provider' => 'HynMe\Webserver\WebserverServiceProvider',
+            'service-provider' => 'Hyn\Webserver\WebserverServiceProvider',
         ],
     ],
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Models;
+namespace Hyn\Framework\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;

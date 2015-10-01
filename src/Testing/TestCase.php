@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework\Testing;
+namespace Hyn\Framework\Testing;
 
 use Config;
-use HynMe\Framework\FrameworkServiceProvider;
+use Hyn\Framework\FrameworkServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
 class TestCase extends IlluminateTestCase

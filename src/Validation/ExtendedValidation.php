@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Validation;
+namespace Hyn\Framework\Validation;
 
 use Illuminate\Validation\Validator;
 

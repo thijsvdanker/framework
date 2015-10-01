@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework\Controllers;
+namespace Hyn\Framework\Controllers;
 
-use HynMe\Framework\Models\AbstractModel;
-use HynMe\ManagementInterface\Form\Generator;
+use Hyn\Framework\Models\AbstractModel;
+use Hyn\ManagementInterface\Form\Generator;
 use Illuminate\Routing\Controller;
 use View;
 

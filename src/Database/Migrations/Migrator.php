@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Database\Migrations;
+namespace Hyn\Framework\Database\Migrations;
 
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {

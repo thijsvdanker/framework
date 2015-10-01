@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework;
+namespace Hyn\Framework;
 
 use Config;
-use HynMe\Framework\Validation\ExtendedValidation;
+use Hyn\Framework\Validation\ExtendedValidation;
 use Illuminate\Support\ServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider
@@ -20,9 +20,7 @@ class FrameworkServiceProvider extends ServiceProvider
         /*
          * Set configuration variables
          */
-        $this->mergeConfigFrom(__DIR__.'/../../config/hyn.php', 'hyn');
-
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'hyn-framework');
+        $this->mergeConfigFrom(__DIR__.'/../config/hyn.php', 'hyn');
 
         /*
          * register additional service providers if they exist

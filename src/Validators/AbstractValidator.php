@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework\Validators;
+namespace Hyn\Framework\Validators;
 
 use App;
-use HynMe\Framework\Models\AbstractModel;
+use Hyn\Framework\Models\AbstractModel;
 use Input;
 use Request;
 use Validator;

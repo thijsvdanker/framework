@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Contracts;
+namespace Hyn\Framework\Contracts;
 
 use Closure;
 

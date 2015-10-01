@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Helpers;
+namespace Hyn\Framework\Helpers;
 
 use Auth;
 

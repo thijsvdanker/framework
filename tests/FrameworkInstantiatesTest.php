@@ -1,9 +1,9 @@
 <?php
 
-namespace HynMe\Framework;
+namespace Hyn\Framework;
 
 use Config;
-use HynMe\Framework\Testing\TestCase;
+use Hyn\Framework\Testing\TestCase;
 
 class FrameworkInstantiatesTest extends TestCase
 {

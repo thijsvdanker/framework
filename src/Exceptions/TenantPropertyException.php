@@ -1,6 +1,6 @@
 <?php
 
-namespace HynMe\Framework\Exceptions;
+namespace Hyn\Framework\Exceptions;
 
 use Exception;
 
