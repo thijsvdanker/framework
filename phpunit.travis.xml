@@ -12,7 +12,7 @@
 >
     <testsuites>
         <testsuite name="hyn framework">
-            <directory suffix=".php">./vendor/hyn-me/framework/tests/</directory>
+            <directory suffix=".php">./vendor/hyn/framework/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
