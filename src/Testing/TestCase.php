@@ -11,11 +11,18 @@ class TestCase extends IlluminateTestCase
     /**
      * Creates the application.
      *
+     * @param null $app_file
      * @return \Illuminate\Foundation\Application
+     * @throws \Exception
      */
-    public function createApplication()
+    public function createApplication($app_file = null)
     {
-        $app = require __DIR__.'/../../../../../bootstrap/app.php';
+        if(empty($app_file))
+        {
+            $app_file = __DIR__.'/../../../../../bootstrap/app.php';
+        }
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = require $app_file;
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
