@@ -4,7 +4,7 @@ return [
     'packages' => [
         'multi-tenant' => [
             'description'      => 'Multi tenancy for Laravel 5.1+',
-            'service-provider' => 'Laraflock\MultiTenant\MultiTenantServiceProvider',
+            'service-provider' => 'Hyn\MultiTenant\MultiTenantServiceProvider',
         ],
         'management-interface' => [
             'description'      => 'Interface for managing webserver and multi tenancy',
