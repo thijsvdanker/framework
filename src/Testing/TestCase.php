@@ -19,7 +19,7 @@ class TestCase extends IlluminateTestCase
     {
         if(empty($app_file))
         {
-            $app_file = __DIR__.'/vendor/laravel/laravel/bootstrap/app.php';
+            $app_file = __DIR__.'../../../../laravel/laravel/bootstrap/app.php';
         }
         /** @var \Illuminate\Foundation\Application $app */
         $app = require $app_file;
