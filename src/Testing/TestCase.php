@@ -40,6 +40,9 @@ class TestCase extends IlluminateTestCase
             throw new \Exception('Required framework service provider not registered/booted for use during unit testing');
         }
 
+        // set application key
+        $this->artisan('key:generate');
+
         return $app;
     }
 }
