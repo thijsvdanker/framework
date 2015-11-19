@@ -2,7 +2,7 @@
 
 namespace Hyn\Framework\Testing;
 
-use Config;
+use Config, Artisan;
 use Hyn\Framework\FrameworkServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
@@ -41,7 +41,7 @@ class TestCase extends IlluminateTestCase
         }
 
         // set application key
-        $this->artisan('key:generate');
+        Artisan::call('key:generate');
 
         return $app;
     }
