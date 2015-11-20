@@ -40,8 +40,10 @@ class TestCase extends IlluminateTestCase
             throw new \Exception('Required framework service provider not registered/booted for use during unit testing');
         }
 
-        // set application key
-        Artisan::call('key:generate');
+        // set application key; but only if not already set
+        if(strlen(Config::get('app.key')) != 32) {
+            Artisan::call('key:generate');
+        }
 
         return $app;
     }
