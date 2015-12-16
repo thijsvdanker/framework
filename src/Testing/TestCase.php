@@ -2,7 +2,7 @@
 
 namespace Hyn\Framework\Testing;
 
-use Config, Artisan;
+use Config;
 use Hyn\Framework\FrameworkServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
@@ -17,9 +17,8 @@ class TestCase extends IlluminateTestCase
      */
     public function createApplication($app_file = null)
     {
-        if(empty($app_file))
-        {
-            $app_file = realpath(getenv('BUILD_DIR') .'/vendor/laravel/laravel/bootstrap/app.php');
+        if (empty($app_file)) {
+            $app_file = realpath(getenv('BUILD_DIR').'/vendor/laravel/laravel/bootstrap/app.php');
         }
         /** @var \Illuminate\Foundation\Application $app */
         $app = require $app_file;
