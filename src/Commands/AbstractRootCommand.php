@@ -21,6 +21,4 @@ abstract class AbstractRootCommand extends Command implements SelfHandling, Shou
             $this->onQueue(config('multi-tenant.queue.root'));
         }
     }
-
-
 }

@@ -21,6 +21,4 @@ abstract class AbstractCommand extends Command implements SelfHandling, ShouldQu
             $this->onQueue(config('multi-tenant.queue.other'));
         }
     }
-
-
 }
